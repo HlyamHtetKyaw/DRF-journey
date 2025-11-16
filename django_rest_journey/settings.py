@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'snippets',
     'students',
     'api',
+    'employee'
 ]
 
 MIDDLEWARE = [
