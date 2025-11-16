@@ -25,7 +25,7 @@ def studentsView(request):
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     return Response({'message':'Method not allowed'},status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-@api_view(['GET'])
+@api_view(['GET','PUT'])
 def studentsDetailView(request,pk):
     try:
         student = Student.objects.get(pk=pk)
@@ -35,3 +35,9 @@ def studentsDetailView(request,pk):
     if(request.method == 'GET'):
         serializer = StudentSerializer(student)
         return Response(serializer.data,status=status.HTTP_200_OK)
+    elif(request.method == 'PUT'):
+        serializer = StudentSerializer(student,data=request.data)
+        if(serializer.is_valid()):
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_200_OK)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
